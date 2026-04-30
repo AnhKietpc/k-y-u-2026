@@ -3,180 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Mời Kỷ Yếu Premium - 2026</title>
+    <title>Thiệp Mời Tốt Nghiệp - Anh Kiệt & Hà Anh</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
-
-        :root {
-            --bg-color: #1a1a1a;
-            --env-color: #fdfaf0; /* Màu kem nhạt chính xác của phong thư trong ảnh */
-            --paper-color: #ffffff;
-            --seal-pink: #eeb7b7; /* Màu hồng phấn chính xác của dấu sáp trong ảnh */
-            --text-vintage: #3d2b1f;
+        :root { 
+            --bg-start: #fce4ec; 
+            --bg-end: #e1bee7;
+            --purple: #9c27b0; 
         }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: var(--bg-color);
-            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); /* Nền gỗ tối */
-            font-family: 'Playfair Display', serif;
+        body, html { 
+            margin: 0; padding: 0; 
+            width: 100%; height: 100%; 
+            overflow: hidden; 
+            font-family: 'Arial', sans-serif; 
         }
 
-        .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            perspective: 1000px;
+        /* --- BACKGROUND ĐẶC SẮC --- */
+        .main-background {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(-45deg, #fce4ec, #f3e5f5, #e1bee7, #fff1f0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
         }
 
-        .envelope {
-            position: relative;
-            width: 450px;
-            height: 300px;
-            background-color: var(--env-color);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border-radius: 2px;
-        }
-
-        /* Nắp phong thư màu kem */
-        .envelope::before {
+        .main-background::after {
             content: "";
             position: absolute;
-            top: 0;
-            z-index: 4;
-            border-top: 160px solid #f4f1e4; /* Màu kem đậm hơn một chút cho nắp */
-            border-left: 225px solid transparent;
-            border-right: 225px solid transparent;
-            transform-origin: top;
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(#9c27b0 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            opacity: 0.1;
         }
 
-        /* Thân phong thư */
-        .envelope::after {
-            content: "";
-            position: absolute;
-            z-index: 3;
-            width: 0;
-            height: 0;
-            border-top: 150px solid transparent;
-            border-right: 225px solid var(--env-color);
-            border-bottom: 150px solid var(--env-color);
-            border-left: 225px solid var(--env-color);
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Tấm thiệp Premium (Bản in cao cấp) */
-        .card {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            height: 95%;
-            background-color: var(--paper-color);
-            border: 1px solid #eee;
-            color: var(--text-vintage);
-            padding: 30px;
+        #app { display: flex; justify-content: center; align-items: center; height: 100vh; position: relative; }
+
+        /* --- GHOST ANIMATIONS --- */
+        .ghost-container { width: 280px; animation: float 3s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .mouth { fill: #ff80ab; display: none; transform-origin: center; }
+        .eye-focus { display: none; }
+        #hand-wave { transform-origin: 160px 120px; animation: wave 1.5s infinite; }
+        @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-20deg); } }
+
+        .is-reading .mouth { display: block; animation: talking 0.2s infinite alternate; }
+        .is-reading .eye-normal { display: none; }
+        .is-reading .eye-focus { display: block; }
+        .is-reading #hand-wave { display: none; }
+        .is-reading #hand-hold-right { display: block !important; }
+
+        @keyframes talking { from { transform: scale(0.8); } to { transform: scale(1.1); } }
+
+        /* --- UI --- */
+        #intro { text-align: center; z-index: 10; }
+        .btn-open { 
+            background: linear-gradient(135deg, #9c27b0, #e91e63); 
+            color: white; border: none; padding: 15px 40px; 
+            border-radius: 50px; cursor: pointer; margin-top: 25px; 
+            font-weight: bold; font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(156,39,176,0.3);
+            transition: 0.3s;
+        }
+        
+        /* --- THIỆP MỜI --- */
+        #invitation-card { 
+            position: absolute; width: 85%; max-width: 380px; background: white; 
+            border-radius: 25px; display: none; z-index: 20; transform: scale(0);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden;
+        }
+        .invitation-img { width: 100%; display: block; transition: 0.4s; }
+        
+        .nav-controls { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 20px; background: #fff;
+        }
+        .nav-btn { 
+            background: #f8f8f8; border: none; width: 45px; height: 45px; 
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
+        }
+
+        /* Dòng chữ yêu cầu của bạn */
+        .footer-note {
+            padding: 10px;
             text-align: center;
-            transition: all 0.8s ease;
-            z-index: 2;
-            box-sizing: border-box;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.02);
+            font-size: 0.85rem;
+            color: #9c27b0;
+            font-style: italic;
+            background: #fff;
+            opacity: 0.8;
         }
 
-        .card h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            margin: 0;
-            color: #5d4037;
-        }
-
-        .card .divider {
-            width: 60%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #eee, transparent);
-            margin: 15px auto;
-        }
-
-        .card p {
-            margin: 8px 0;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .card b {
-            font-weight: 600;
-            color: #2e1a0a;
-        }
-
-        /* Con dấu sáp hồng (Wax Seal) chính xác như hình */
-        .wax-seal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 65px;
-            height: 65px;
-            background: var(--seal-pink);
-            background: radial-gradient(circle, #f9e1e1, var(--seal-pink));
-            border-radius: 50%;
-            z-index: 5;
-            transform: translate(-50%, -10%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
-            transition: 0.5s;
-            border: 1px solid #e2a0a0;
-        }
-
-        .wax-seal::after {
-            content: "❀"; /* Biểu tượng dập nổi hoa hồng */
-            color: #fff;
-            font-size: 2rem;
-            opacity: 0.5;
-        }
-
-        /* Trạng thái mở thư */
-        .envelope-wrapper.open .envelope::before {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .envelope-wrapper.open .card {
-            transform: translate(-50%, -200px) scale(1.05); /* Trồi lên hẳn ra ngoài */
-            z-index: 5;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .envelope-wrapper.open .wax-seal {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0);
-        }
+        canvas { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 15; }
     </style>
 </head>
 <body>
 
-    <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
-        <div class="envelope">
-            <div class="card">
-                <h2>LỜI MỜI TRÂN TRỌNG</h2>
-                <div class="divider"></div>
-                <p>Thân mời bạn cùng tham dự buổi chụp ảnh lưu giữ kỷ niệm chặng đường</p>
-                <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">NIÊN KHÓA</p>
-                <p style="font-size: 1.2rem; color: #5d4037;"><b>2023 - 2026</b></p>
-                
-                <div style="margin-top: 20px; font-style: italic; font-size: 0.9rem;">
-                    <p>Thời gian: <b>07:30 - 24.05.2026</b></p>
-                    <p>Địa điểm: <b>THPT Chuyên Biên Hòa</b></p>
-                </div>
-                
-                <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.7;">— Sự hiện diện của bạn là niềm vinh hạnh —</p>
-            </div>
+<div class="main-background"></div>
+
+<div id="app">
+    <canvas id="balloon-canvas"></canvas>
+
+    <div id="intro">
+        <div id="ghost-wrapper" class="ghost-container">
+            <svg viewBox="0 0 200 200">
+                <path d="M40,100 Q40,40 100,40 Q160,40 160,100 L160,170 Q130,155 100,170 Q70,155 40,170 Z" fill="white" />
+                <g class="eye-normal"><circle cx="75" cy="95" r="5" fill="#333" /><circle cx="125" cy="95" r="5" fill="#333" /></g>
+                <g class="eye-focus">
+                    <path d="M65,100 Q75,90 85,100" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M115,100 Q125,90 135,100" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                </g>
+                <ellipse class="mouth" cx="100" cy="115" rx="5" ry="3" />
+                <rect x="60" y="110" width="80" height="55" rx="3" fill="#fff9c4" stroke="#fbc02d" />
+                <path d="M60,135 Q50,135 60,155" stroke="white" stroke-width="10" stroke-linecap="round" fill="none" />
+                <path id="hand-wave" d="M160,120 Q185,110 170,140" stroke="white" stroke-width="10" stroke-linecap="round" fill="none" />
+                <path id="hand-hold-right" d="M140,135 Q150,135 140,155" stroke="white" stroke-width="10" stroke-linecap="round" fill="none" style="display:none;" />
+            </svg>
         </div>
-        <div class="wax-seal"></div>
+        <div id="ui-text">
+            <h2 style="color: #9c27b0;">Hà Anh gửi thư...</h2>
+            <button class="btn-open" onclick="startReadingProcess()">MỞ THƯ NGAY ✉️</button>
+        </div>
     </div>
 
+    <div id="invitation-card">
+        <img src="" id="display-img" class="invitation-img">
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="changePage(-1)">❮</button>
+            <span id="page-num" style="font-weight:bold; color:#9c27b0;">1 / 3</span>
+            <button class="nav-btn" onclick="changePage(1)">❯</button>
+        </div>
+        
+        <div class="footer-note">
+            code code dui dui =)) hehe
+        </div>
+
+        <button onclick="location.reload()" style="width:100%; border:none; padding:12px; background:#fafafa; color:#999; cursor:pointer;">Xem lại từ đầu ↺</button>
+    </div>
+</div>
+
+<script>
+    const myImages = [
+        "https://via.placeholder.com/400x550/FFB6C1/000000?text=TRANG+1", 
+        "https://via.placeholder.com/400x550/E6E6FA/000000?text=TRANG+2", 
+        "https://via.placeholder.com/400x550/F0FFF0/000000?text=TRANG+3"
+    ];
+    
+    let currentPageIdx = 0;
+
+    function startReadingProcess() {
+        document.getElementById('ghost-wrapper').classList.add('is-reading');
+        document.getElementById('ui-text').innerHTML = "<p style='color:var(--purple); font-weight:bold;'>Đang đọc thư...</p>";
+
+        setTimeout(() => {
+            gsap.to("#intro", { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
+                document.getElementById('intro').style.display = 'none';
+                initInvitation();
+            }});
+        }, 2500); 
+    }
+
+    function initInvitation() {
+        initBalloons();
+        document.getElementById('display-img').src = myImages[0];
+        const card = document.getElementById('invitation-card');
+        card.style.display = 'block';
+        gsap.to(card, { scale: 1, duration: 0.8, ease: "back.out(1.5)" });
+    }
+
+    function changePage(step) {
+        currentPageIdx = (currentPageIdx + step + myImages.length) % myImages.length;
+        const imgEl = document.getElementById('display-img');
+        imgEl.style.opacity = 0;
+        setTimeout(() => {
+            imgEl.src = myImages[currentPageIdx];
+            document.getElementById('page-num').innerText = `${currentPageIdx + 1} / ${myImages.length}`;
+            imgEl.style.opacity = 1;
+        }, 200);
+    }
+
+    const canvas = document.getElementById('balloon-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let balloons = [];
+    function initBalloons() {
+        for(let i=0; i<45; i++) balloons.push({x: Math.random()*canvas.width, y: canvas.height+50, r: Math.random()*15+15, c: `hsl(${Math.random()*360},75%,75%)`, s: Math.random()*3+2});
+        animateBalloons();
+    }
+    function animateBalloons() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        balloons.forEach((b, i) => {
+            b.y -= b.s;
+            ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2); ctx.fillStyle = b.c; ctx.fill();
+            if(b.y < -50) balloons.splice(i,1);
+        });
+        if(balloons.length > 0) requestAnimationFrame(animateBalloons);
+    }
+</script>
 </body>
 </html>
