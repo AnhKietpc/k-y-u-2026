@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Mời Kỷ Yếu 2026</title>
+    <style>
+        :root {
+            --color-env: #f5edd1; /* Màu phong thư */
+            --color-env2: #e0d5b0;
+            --color-letter: #ffffff;
+            --color-heart: #d4af37; /* Màu vàng đồng */
+        }
 
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Container bao quanh phong thư */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: var(--color-env);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Nắp phong thư */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-top: 110px solid var(--color-env2);
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            transform-origin: top;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Các cạnh của phong thư */
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-right: 150px solid var(--color-env);
+            border-bottom: 100px solid var(--color-env);
+            border-left: 150px solid var(--color-env);
+        }
+
+        /* Nội dung bức thư bên trong */
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 90%;
+            background: var(--color-letter);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.5s ease-in-out;
+            z-index: 1;
+            box-sizing: border-box;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        }
+
+        .letter h2 { font-size: 1.2rem; color: var(--color-heart); margin-top: 0; }
+        .letter p { font-size: 0.8rem; line-height: 1.4; color: #555; }
+
+        /* Nút bấm ở giữa (Trái tim) */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: var(--color-heart);
+            z-index: 4;
+            transform: translate(-50%, -20%) rotate(45deg);
+            transition: transform 0.5s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--color-heart);
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -15px; left: 0; }
+        .heart::after { left: -15px; top: 0; }
+
+        /* Trạng thái mở thư */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-wrapper.open .letter {
+            bottom: 100px;
+            transition-delay: 0.3s;
+        }
+
+        .envelope-wrapper.open .heart {
+            transform: translate(-50%, -20%) rotate(45deg) scale(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="toggleEnvelope()">
+        <div class="envelope">
+            <div class="letter">
+                <h2>THƯ MỜI KỶ YẾU</h2>
+                <p>Gửi bạn thân mến,</p>
+                <p>Hãy cùng tụi mình lưu giữ những khoảnh khắc cuối cùng của tuổi học trò nhé!</p>
+                <p><strong>24.05.2026</strong></p>
+            </div>
+        </div>
+        <div class="heart"></div>
+    </div>
+
+    <script>
+        function toggleEnvelope() {
+            document.querySelector('.envelope-wrapper').classList.toggle('open');
+        }
+    </script>
+
+</body>
+</html>
