@@ -8,7 +8,7 @@
     <style>
         :root {
             --denim-blue: #2c5282;
-            --bg-paper: #e3e9f0; /* Nền xanh khói để hiện rõ con ma trắng */
+            --bg-paper: #e3e9f0; 
         }
 
         body, html {
@@ -31,62 +31,7 @@
             overflow: hidden;
         }
 
-        /* --- HIỆU ỨNG DIỄN XUẤT CỦA CON MA --- */
-        .ghost-container {
-            position: relative;
-            width: 200px;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .ghost { 
-            width: 160px;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-            /* Kết hợp 2 hiệu ứng: vẫy chào và gật đầu đọc thiệp */
-            animation: 
-                ghostWave 2s ease-in-out infinite, 
-                ghostNod 4s ease-in-out infinite;
-            transform-origin: bottom center; /* Giữ chân cố định để vẫy phần thân trên */
-        }
-
-        /* Hiệu ứng vẫy tay (lắc nhẹ qua lại) */
-        @keyframes ghostWave {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-        }
-
-        /* Hiệu ứng gật đầu (nhấp nhô như đang đọc thiệp) */
-        @keyframes ghostNod {
-            0%, 20%, 100% { margin-top: 0px; }
-            50%, 70% { margin-top: 15px; } /* Hạ thấp xuống như đang nhìn vào tấm thiệp trên tay */
-        }
-
-        /* Tấm thiệp nhỏ con ma cầm trên tay (Sticker phụ) */
-        .mini-card {
-            position: absolute;
-            bottom: 40px;
-            width: 50px;
-            z-index: 12;
-            transform: rotate(-10deg);
-            animation: cardFollow 2s ease-in-out infinite;
-        }
-
-        @keyframes cardFollow {
-            0%, 100% { transform: rotate(-10deg) translateX(-5px); }
-            50% { transform: rotate(5deg) translateX(5px); }
-        }
-
-        /* --- TRANG TRÍ XUNG QUANH --- */
-        .sticker { position: absolute; z-index: 5; user-select: none; }
-        .torn-paper { position: absolute; background: var(--denim-blue); z-index: 2; }
-        .edge-top { top: 0; left: 0; width: 100%; height: 40px; clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 90%, 70% 75%, 50% 95%, 30% 70%, 15% 90%, 0 75%); }
-        .edge-bottom { bottom: 0; left: 0; width: 100%; height: 60px; clip-path: polygon(0 25%, 15% 10%, 30% 30%, 50% 5%, 70% 25%, 85% 10%, 100% 30%, 100% 100%, 0 100%); }
-
-        /* --- GIAO DIỆN CHỜ --- */
+        /* --- HIỆU ỨNG CON MA VẪY TAY & GẬT ĐẦU --- */
         #intro {
             position: relative;
             z-index: 15;
@@ -98,29 +43,88 @@
             text-align: center;
         }
 
+        .ghost-actor {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            /* Hiệu ứng gật đầu đọc bài */
+            animation: ghostNod 3s ease-in-out infinite;
+        }
+
+        .ghost-body {
+            width: 150px;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+        }
+
+        .ghost-hand {
+            position: absolute;
+            font-size: 40px;
+            top: 60px;
+            right: 10px;
+            /* Hiệu ứng vẫy tay chào */
+            animation: ghostWave 1.5s ease-in-out infinite;
+            transform-origin: bottom left;
+        }
+
+        @keyframes ghostWave {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(30deg); }
+        }
+
+        @keyframes ghostNod {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        /* --- NỘI DUNG THIỆP MỜI (ẢNH HIỆN SAU) --- */
+        #invitation-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 300px;
+            background: white;
+            padding: 12px 12px 50px 12px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            display: none;
+            z-index: 30;
+            border: 1px solid #ddd;
+        }
+
+        #invitation-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid #f0f0f0;
+        }
+
+        .polaroid-caption {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--denim-blue);
+            font-size: 1.1rem;
+        }
+
+        /* --- CÁC CHI TIẾT TRANG TRÍ PHỤ --- */
+        .sticker { position: absolute; z-index: 5; }
+        .torn-paper { position: absolute; background: var(--denim-blue); z-index: 2; width: 100%; }
+        .edge-top { top: 0; height: 40px; clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 90%, 70% 75%, 50% 95%, 30% 70%, 15% 90%, 0 75%); }
+        .edge-bottom { bottom: 0; height: 60px; clip-path: polygon(0 25%, 15% 10%, 30% 30%, 50% 5%, 70% 25%, 85% 10%, 100% 30%, 100% 100%, 0 100%); }
+
         .btn-open {
             background: var(--denim-blue);
             color: white;
             border: 2px solid #fff;
             padding: 12px 30px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
-            margin-top: 30px;
+            margin-top: 25px;
             font-weight: bold;
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
-
-        #invitation-card {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 300px;
-            background: white;
-            padding: 10px 10px 50px 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 20;
-        }
+        .btn-open:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -129,36 +133,57 @@
     <div class="torn-paper edge-top"></div>
     <div class="torn-paper edge-bottom"></div>
 
-    <div class="sticker" style="top: 15%; left: 10%; font-size: 25px;">✨</div>
-    <div class="sticker" style="top: 20%; right: 15%; font-size: 30px;">🎀</div>
-    <div class="sticker" style="bottom: 120px; left: 30px; font-size: 40px;">🐳</div>
+    <div class="sticker" style="top: 12%; left: 10%; font-size: 25px;">✨</div>
+    <div class="sticker" style="top: 18%; right: 12%; font-size: 30px;">🎀</div>
+    <div class="sticker" style="bottom: 15%; left: 8%; font-size: 40px; transform: rotate(-15deg);">🐳</div>
 
     <div id="intro">
-        <div class="ghost-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/2541/2541991.png" class="mini-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/1042/1042340.png" class="ghost">
+        <div class="ghost-actor">
+            <img src="https://cdn-icons-png.flaticon.com/512/1042/1042340.png" class="ghost-body">
+            <div class="ghost-hand">👋</div>
         </div>
         
-        <div style="background: rgba(255,255,255,0.8); padding: 15px; margin-top: 20px; border: 2px dashed var(--denim-blue);">
-            <h2 style="margin: 0;">CHÀO ANH KIỆT! 👋</h2>
-            <p style="margin: 5px 0;">Đang đọc thư của Hà Anh nè...</p>
+        <div style="background: rgba(255,255,255,0.8); padding: 15px 25px; border: 2px dashed var(--denim-blue); margin-top: 10px;">
+            <h2 style="margin: 0; color: var(--denim-blue);">HELLO ANH KIỆT!</h2>
+            <p style="margin: 5px 0; font-size: 0.9rem;">Hà Anh gửi cho bạn 01 bí mật...</p>
         </div>
 
-        <button class="btn-open" onclick="openCard()">XEM CHI TIẾT ✉️</button>
+        <button class="btn-open" onclick="showSecret()">XEM CHI TIẾT ✉️</button>
     </div>
 
     <div id="invitation-card">
-        <img src="https://via.placeholder.com/300x400/2c5282/ffffff?text=LỄ+TỐT+NGHIỆP+2026" style="width:100%">
-        <p style="text-align:center; font-weight:bold; color: var(--denim-blue);">HẸN GẶP BẠN NHÉ!</p>
-        <button onclick="location.reload()" style="width:100%; border:none; background:#f0f0f0; padding:10px; cursor:pointer;">Xem lại từ đầu ↺</button>
+        <img src="https://via.placeholder.com/300x400/2c5282/ffffff?text=GRADUATION+2026" id="main-photo">
+        <div class="polaroid-caption">
+            HẸN GẶP BẠN NHÉ! 🎓
+            <p style="font-size: 0.7rem; color: #999; font-weight: normal; margin-top: 10px;">(Chạm để xem lại ↺)</p>
+        </div>
+        <button onclick="location.reload()" style="position:absolute; bottom:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer;"></button>
     </div>
 </div>
 
 <script>
-    function openCard() {
-        gsap.to("#intro", { opacity: 0, duration: 0.5, onComplete: () => {
-            document.getElementById('intro').style.display = 'none';
-        }});
-        setTimeout(() => {
-            const card = document.getElementById('invitation-card');
-            card.style.display =
+    function showSecret() {
+        // 1. Biến mất màn hình chờ (Con ma biến mất)
+        gsap.to("#intro", { 
+            opacity: 0, 
+            scale: 0.5, 
+            duration: 0.5, 
+            onComplete: () => {
+                document.getElementById('intro').style.display = 'none';
+                
+                // 2. Hiện tấm thiệp ảnh sau khi con ma đi mất
+                const card = document.getElementById('invitation-card');
+                card.style.display = 'block';
+                gsap.to(card, { 
+                    scale: 1, 
+                    rotation: -3, 
+                    duration: 0.8, 
+                    ease: "back.out(1.7)" 
+                });
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
