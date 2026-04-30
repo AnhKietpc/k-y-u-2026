@@ -1,1 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Mời Kỷ Yếu Premium - 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
 
+        :root {
+            --bg-color: #1a1a1a;
+            --env-color: #fdfaf0; /* Màu kem nhạt chính xác của phong thư trong ảnh */
+            --paper-color: #ffffff;
+            --seal-pink: #eeb7b7; /* Màu hồng phấn chính xác của dấu sáp trong ảnh */
+            --text-vintage: #3d2b1f;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); /* Nền gỗ tối */
+            font-family: 'Playfair Display', serif;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 450px;
+            height: 300px;
+            background-color: var(--env-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 2px;
+        }
+
+        /* Nắp phong thư màu kem */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 4;
+            border-top: 160px solid #f4f1e4; /* Màu kem đậm hơn một chút cho nắp */
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            transform-origin: top;
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Thân phong thư */
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 3;
+            width: 0;
+            height: 0;
+            border-top: 150px solid transparent;
+            border-right: 225px solid var(--env-color);
+            border-bottom: 150px solid var(--env-color);
+            border-left: 225px solid var(--env-color);
+        }
+
+        /* Tấm thiệp Premium (Bản in cao cấp) */
+        .card {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 95%;
+            background-color: var(--paper-color);
+            border: 1px solid #eee;
+            color: var(--text-vintage);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.8s ease;
+            z-index: 2;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.02);
+        }
+
+        .card h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            margin: 0;
+            color: #5d4037;
+        }
+
+        .card .divider {
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #eee, transparent);
+            margin: 15px auto;
+        }
+
+        .card p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .card b {
+            font-weight: 600;
+            color: #2e1a0a;
+        }
+
+        /* Con dấu sáp hồng (Wax Seal) chính xác như hình */
+        .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 65px;
+            height: 65px;
+            background: var(--seal-pink);
+            background: radial-gradient(circle, #f9e1e1, var(--seal-pink));
+            border-radius: 50%;
+            z-index: 5;
+            transform: translate(-50%, -10%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+            transition: 0.5s;
+            border: 1px solid #e2a0a0;
+        }
+
+        .wax-seal::after {
+            content: "❀"; /* Biểu tượng dập nổi hoa hồng */
+            color: #fff;
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+
+        /* Trạng thái mở thư */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-wrapper.open .card {
+            transform: translate(-50%, -200px) scale(1.05); /* Trồi lên hẳn ra ngoài */
+            z-index: 5;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .envelope-wrapper.open .wax-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
+        <div class="envelope">
+            <div class="card">
+                <h2>LỜI MỜI TRÂN TRỌNG</h2>
+                <div class="divider"></div>
+                <p>Thân mời bạn cùng tham dự buổi chụp ảnh lưu giữ kỷ niệm chặng đường</p>
+                <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">NIÊN KHÓA</p>
+                <p style="font-size: 1.2rem; color: #5d4037;"><b>2023 - 2026</b></p>
+                
+                <div style="margin-top: 20px; font-style: italic; font-size: 0.9rem;">
+                    <p>Thời gian: <b>07:30 - 24.05.2026</b></p>
+                    <p>Địa điểm: <b>THPT Chuyên Biên Hòa</b></p>
+                </div>
+                
+                <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.7;">— Sự hiện diện của bạn là niềm vinh hạnh —</p>
+            </div>
+        </div>
+        <div class="wax-seal"></div>
+    </div>
+
+</body>
+</html>
