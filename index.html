@@ -47,7 +47,6 @@
             position: relative;
             width: 200px;
             height: 200px;
-            /* Hiệu ứng gật đầu đọc bài */
             animation: ghostNod 3s ease-in-out infinite;
         }
 
@@ -61,7 +60,6 @@
             font-size: 40px;
             top: 60px;
             right: 10px;
-            /* Hiệu ứng vẫy tay chào */
             animation: ghostWave 1.5s ease-in-out infinite;
             transform-origin: bottom left;
         }
@@ -76,7 +74,7 @@
             50% { transform: translateY(-15px) rotate(3deg); }
         }
 
-        /* --- NỘI DUNG THIỆP MỜI (ẢNH HIỆN SAU) --- */
+        /* --- NỘI DUNG THIỆP MỜI --- */
         #invitation-card {
             position: absolute;
             top: 50%;
@@ -106,7 +104,6 @@
             font-size: 1.1rem;
         }
 
-        /* --- CÁC CHI TIẾT TRANG TRÍ PHỤ --- */
         .sticker { position: absolute; z-index: 5; }
         .torn-paper { position: absolute; background: var(--denim-blue); z-index: 2; width: 100%; }
         .edge-top { top: 0; height: 40px; clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 90%, 70% 75%, 50% 95%, 30% 70%, 15% 90%, 0 75%); }
@@ -148,6 +145,7 @@
             <p style="margin: 5px 0; font-size: 0.9rem;">Anh Kiệt gửi cho bạn một bí mật...</p>
         </div>
 
+        <!-- Nút bấm này giờ sẽ kích hoạt cả hiệu ứng và nhạc -->
         <button class="btn-open" onclick="showSecret()">XEM CHI TIẾT ✉️</button>
     </div>
 
@@ -161,9 +159,18 @@
     </div>
 </div>
 
+<!-- Thành phần nhạc (ẩn) -->
+<audio id="myAudio" loop>
+    <source src="nhackiyeu.mp3" type="audio/mpeg">
+</audio>
+
 <script>
     function showSecret() {
-        // 1. Biến mất màn hình chờ (Con ma biến mất)
+        // PHÁT NHẠC
+        var audio = document.getElementById("myAudio");
+        audio.play().catch(e => console.log("Trình duyệt chặn nhạc:", e));
+
+        // HIỆU ỨNG CHUYỂN CẢNH
         gsap.to("#intro", { 
             opacity: 0, 
             scale: 0.5, 
@@ -171,7 +178,6 @@
             onComplete: () => {
                 document.getElementById('intro').style.display = 'none';
                 
-                // 2. Hiện tấm thiệp ảnh sau khi con ma đi mất
                 const card = document.getElementById('invitation-card');
                 card.style.display = 'block';
                 gsap.to(card, { 
@@ -184,8 +190,6 @@
         });
     }
 </script>
-    <audio id="myAudio" controls autoplay muted loop>
-  <source src="nhackiyeu.mp3" type="audio/mpeg">
-</audio>
+
 </body>
 </html>
